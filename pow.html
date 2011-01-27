@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+	<head>
+		<script type="text/javascript" src="pow.js"></script>
+		<style type="text/css">
+			body { margin:0; background:#111; }
+			#slides { position:absolute; top:5px; bottom:5px; right:5px; left:5px; overflow:hidden; }
+			.slide { position:relative; top:0; left:0; background:#fff; }
+			.slide { display:none; }
+			.slide.current { display:table; }
+
+			.slide h1, h2 { text-align:center; margin:0; }
+			.slide h1 { font-size:100em; }
+			.slide h2 { font-size:48em; font-weight:normal; }
+			.slide p, .slide ul { font-size:36em; }
+
+			.slide .vertical-center { display:table-cell; vertical-align:middle; }
+		</style>
+		<style type="text/css">
+			.slide.layout-title {
+				
+			}
+		</style>
+	</head>
+	<body>
+		<div id="slides">
+			<div class="slide">
+				<div class="vertical-center">
+					<h1>POW!</h1>
+					<h2>A simple web presentation tool.</h2>
+				</div>
+			</div>
+			<div class="slide">
+				<ul class="vertical-center" contenteditable="true">
+					<li>Welcome to POW!</li>
+					<li>Pow makes it easy to create simple, powerful presentations using HTML and JavaScript.</li>
+				</ul>
+			</div>
+		</div>
+	</body>
+</html>
