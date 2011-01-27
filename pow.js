@@ -2,6 +2,28 @@
 
 pow = {}
 
+;(pow.loader = function() {
+	var powScript = document.getElementById('pow')
+	if (!powScript.dataset.loaded) {
+		var req = new XMLHttpRequest(),
+			origin = powScript.src || powScript.dataset.origin
+		req.open('GET', origin, false)
+		req.send()
+		if (req.status == 200) {
+			var innerScript = document.createElement('script')
+			innerScript.id = 'pow'
+			innerScript.dataset.origin = origin
+			innerScript.dataset.loaded = true
+			innerScript.innerHTML = req.responseText
+			document.head.insertBefore(innerScript, powScript)
+			document.head.removeChild(powScript)
+			return
+		}
+	} else {
+		delete powScript.dataset.loaded;
+	}
+})()
+
 pow.signal = function() {
 	var handlers = []
 	function register(handler) {
