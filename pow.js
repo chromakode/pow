@@ -2,7 +2,15 @@
 
 pow = {}
 
+pow.log = function() {
+	if (console.log && pow.log.enabled) {
+		console.log.apply(console, arguments)
+	}
+}
+pow.log.enabled = true
+
 ;(pow.loader = function() {
+	pow.log('{POW!}')
 	var powScript = document.getElementById('pow')
 	if (!powScript.dataset.loaded) {
 		var req = new XMLHttpRequest(),
@@ -15,12 +23,15 @@ pow = {}
 			innerScript.dataset.origin = origin
 			innerScript.dataset.loaded = true
 			innerScript.innerHTML = req.responseText
+			pow.log('Loaded updated pow.js from ' + origin + '. Restarting.')
 			document.head.insertBefore(innerScript, powScript)
 			document.head.removeChild(powScript)
 			return
 		}
+		pow.log('Unable to load updated pow.js from ' + origin + '.')
 	} else {
 		delete powScript.dataset.loaded;
+		pow.log('Detected restart. Continuing.')
 	}
 })()
 
