@@ -13,22 +13,24 @@ pow.log.enabled = true
 	pow.log('{POW!}')
 	var powScript = document.getElementById('pow')
 	if (!powScript.dataset.loaded) {
-		var req = new XMLHttpRequest(),
-			origin = powScript.src || powScript.dataset.origin
-		req.open('GET', origin, false)
-		req.send()
-		if (req.status == 200) {
-			var innerScript = document.createElement('script')
-			innerScript.id = 'pow'
-			innerScript.dataset.origin = origin
-			innerScript.dataset.loaded = true
-			innerScript.innerHTML = req.responseText
-			pow.log('Loaded updated pow.js from ' + origin + '. Restarting.')
-			document.head.insertBefore(innerScript, powScript)
-			document.head.removeChild(powScript)
-			return
-		}
-		pow.log('Unable to load updated pow.js from ' + origin + '.')
+		try {
+			var req = new XMLHttpRequest(),
+				origin = powScript.src || powScript.dataset.origin
+			req.open('GET', origin, false)
+			req.send()
+			if (req.status == 200) {
+				var innerScript = document.createElement('script')
+				innerScript.id = 'pow'
+				innerScript.dataset.origin = origin
+				innerScript.dataset.loaded = true
+				innerScript.innerHTML = req.responseText
+				pow.log('Loaded updated pow.js from ' + origin + '. Restarting.')
+				document.head.insertBefore(innerScript, powScript)
+				document.head.removeChild(powScript)
+				return
+			}
+		} catch (err) {}
+		pow.log('Failed to update pow.js from ' + origin + '. Continuing.')
 	} else {
 		delete powScript.dataset.loaded;
 		pow.log('Detected restart. Continuing.')
