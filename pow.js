@@ -13,6 +13,7 @@ pow.log.enabled = true
 	pow.log('{POW!}')
 	var powScript = document.getElementById('pow')
 	if (!powScript.dataset.loaded) {
+		// TODO: Replace this double request silliness with a string eval once we have a compilation system in place.
 		try {
 			var req = new XMLHttpRequest(),
 				origin = powScript.src || powScript.dataset.origin
@@ -53,6 +54,7 @@ pow.signal = function() {
 
 pow.on = {}
 pow.on.load = new pow.signal()
+// pow.on.cleanup -- for cleaning the dom prior to saves?
 
 pow.slides = []
 pow.slides.show = function(slide) {
