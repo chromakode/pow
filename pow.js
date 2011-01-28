@@ -70,26 +70,36 @@
 	pow.on.load = new pow.signal()
 	// pow.on.cleanup -- for cleaning the dom prior to saves?
 
-	pow.animate = function(callback, duration) {
-		var elapsed, duration, interval
-		function frame() {
-			callback(elapsed/duration)
-			elapsed += step
-			if (duration && elapsed > duration) {
-				stop()
+	pow.Animation = function(duration, args) {
+		this.on = {}
+		this.on.frame = new pow.signal()
+		this.on.finish = new pow.signal()
+		if (args.frame) { this.on.frame(args.frame) }
+		if (args.finish) { this.on.finish(args.finish) }
+		this.duration = duration
+		this.elapsed = 0
+		this.step = 1000/60
+	}
+	pow.Animation.prototype = {
+		frame: function() {
+			this.on.frame.fire(this.elapsed / this.duration)
+			this.elapsed += this.step
+			if (this.duration && this.elapsed > this.duration) {
+				this.stop()
+			}
+		},
+		start: function() {
+			var self = this
+			this.interval = setInterval(function() { self.frame() }, this.step) 
+		},
+		stop: function() {
+			if (this.interval) {
+				this.on.frame.fire(1)
+				clearInterval(this.interval)
+				this.interval = null
+				this.on.finish.fire()
 			}
 		}
-		function stop() {
-			if (interval) {
-				callback(1)
-				clearInterval(interval)
-				interval = null
-			}
-		}
-		elapsed = 0
-		step = 1000/60
-		interval = setInterval(frame, step)
-		return stop
 	}
 
 	pow.style = {}
@@ -149,9 +159,10 @@
 		get previous() {
 			return (this.index > 0) && pow.slides[this.index - 1]
 		},
-		animate: function(callback, duration) {
-			var stop = pow.animate(callback, duration)
-			this.on.hide.once(stop)
+		animate: function(duration, args) {
+			var anim = new pow.Animation(duration, args)
+			this.on.hide.once(anim.stop)
+			return anim
 		}
 	}
 

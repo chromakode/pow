@@ -23,9 +23,10 @@
 			<div class="slide">
 				<script>
 					pow.slide.on.show(function() {
-						pow.slide.animate(function(val) {
-							pow.slide.el.style.fontSize = val + "em"
-						}, 250)
+						pow.slide.animate(250, {
+							frame: function(val) { pow.slide.el.style.fontSize = val + "em"	},
+							finish: function() { pow.slide.el.style.fontSize = "" }
+						}).start();
 					})
 				</script>
 				<div class="vertical-center">
