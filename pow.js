@@ -66,10 +66,10 @@ pow.slides.show = function(slide) {
 	pow.slides.current = slide
 }
 pow.slides.next = function() {
-	pow.slides.show(pow.slides.current.nextElementSibling || pow.slides[0]);
+	pow.slides.show(pow.slides.current.nextElementSibling || pow.slides[0])
 }
 pow.slides.previous = function() {
-	pow.slides.show(pow.slides.current.prevElementSibling || pow.slides[pow.slides.length]);
+	pow.slides.show(pow.slides.current.prevElementSibling || pow.slides[pow.slides.length])
 }
 pow.slides.load = pow.on.load(function() {
 	Array.prototype.forEach.call(document.getElementsByClassName('slide'), function(slideEl) {
@@ -102,7 +102,7 @@ pow.slides.style.resize = function() {
 }
 pow.slides.style.load = pow.on.load(function() {
 	pow.slides.style.resize()
-	window.addEventListener('resize', function() { pow.slides.style.resize(); }, false)
+	window.addEventListener('resize', function() { pow.slides.style.resize() }, false)
 })
 
 window.addEventListener('load', pow.on.load.fire, false)
