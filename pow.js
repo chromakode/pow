@@ -153,9 +153,11 @@
 
 	pow.slides.style = {}
 	pow.slides.style.resize = function() {
+		var styleId = 'pow-slide-style'
+		this.el = this.el || document.getElementById(styleId)
 		if (!this.el) {
 			this.el = document.createElement('style')
-			this.el.id = 'pow-slide-style'
+			this.el.id = styleId
 			document.head.appendChild(this.el)
 		}
 		var slides = document.getElementById('slides'),
@@ -164,14 +166,14 @@
 			padLeft = (slides.offsetWidth - width) / 2
 			padTop = (slides.offsetHeight - height) / 2
 			size = width / 800
-		this.el.innerHTML =
-			'.slide {'
-				+ ' left:'+padLeft+'px;'
-				+ ' top:'+padTop+'px;'
-				+ ' height:'+height+'px;'
-				+ ' width:'+width+'px;'
+		this.el.innerHTML = '\n'
+			+'.slide {'
+				+ ' left:'+padLeft.toFixed()+'px;'
+				+ ' top:'+padTop.toFixed()+'px;'
+				+ ' height:'+height.toFixed()+'px;'
+				+ ' width:'+width.toFixed()+'px;'
 			+' }\n'
-			+'#slides { font-size:'+size+'px; }'
+			+'#slides { font-size:'+size.toFixed(4)+'px; }\n'
 	}
 	pow.slides.style.load = pow.on.load(function() {
 		pow.slides.style.resize()
