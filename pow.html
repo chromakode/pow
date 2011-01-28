@@ -20,10 +20,14 @@
 	<body>
 		<div id="slides">
 			<div class="slide">
+				<script>
+					pow.slide.on.show(function() {
+						pow.slide.animate(function(val) {
+							pow.slide.el.style.fontSize = val + "em"
+						}, 250)
+					})
+				</script>
 				<div class="vertical-center">
-					<script>
-
-					</script>
 					<h1>POW!</h1>
 					<h2>A simple web presentation tool.</h2>
 				</div>
