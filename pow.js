@@ -92,6 +92,17 @@
 		return stop
 	}
 
+	pow.style = {}
+	pow.style.get = function(styleId) {
+		var el = document.getElementById(styleId)
+		if (!el) {
+			el = document.createElement('style')
+			el.id = styleId
+			document.head.appendChild(el)
+		}
+		return el
+	}
+
 	// Placeholder API during DOM load for scripting convenience.
 	// This gets replaced with the current slide as soon as we have one.
 	pow.slide = {}
@@ -124,11 +135,13 @@
 			pow.slide.hide()
 			pow.slide = this
 			this.on.show.fire()
+			pow.slides.on.show.fire(this)
 			this.el.classList.add('current')
 		},
 		hide: function() {
 			this.el.classList.remove('current')
 			this.on.hide.fire()
+			pow.slides.on.hide.fire(this)
 		},
 		get next() {
 			return (this.index < pow.slides.length - 1) && pow.slides[this.index + 1]
@@ -150,29 +163,25 @@
 		})
 		pow.slides[0].show()
 	})
-
+	pow.slides.on = {}
+	pow.slides.on.show = new pow.signal()
+	pow.slides.on.hide = new pow.signal()
 	pow.slides.style = {}
 	pow.slides.style.resize = function() {
-		var styleId = 'pow-slide-style'
-		this.el = this.el || document.getElementById(styleId)
-		if (!this.el) {
-			this.el = document.createElement('style')
-			this.el.id = styleId
-			document.head.appendChild(this.el)
-		}
+		this.el = this.el || pow.style.get('pow-slide-scale')
 		var slides = document.getElementById('slides'),
 			width = Math.min(slides.offsetWidth, (4/3) * slides.offsetHeight),
 			height = .75 * width,
 			padLeft = (slides.offsetWidth - width) / 2
 			padTop = (slides.offsetHeight - height) / 2
 			size = width / 800
-		this.el.innerHTML = '\n'
-			+'.slide {'
+		this.el.innerHTML =
+			 '.slide {'
 				+ ' left:'+padLeft.toFixed()+'px;'
 				+ ' top:'+padTop.toFixed()+'px;'
 				+ ' height:'+height.toFixed()+'px;'
 				+ ' width:'+width.toFixed()+'px;'
-			+' }\n'
+			+' }'
 			+'#slides { font-size:'+size.toFixed(4)+'px; }\n'
 	}
 	pow.slides.style.load = pow.on.load(function() {
@@ -182,9 +191,6 @@
 
 	window.addEventListener('load', pow.on.load.fire, false)
 	window.addEventListener('click', function(e) {
-		if (!e.target.isContentEditable) {
-			if (pow.slide.next) { pow.slide.next.show() }
-			e.preventDefault()
-		}
+		if (pow.slide.next) { pow.slide.next.show() }
 	}, false)
 })()
