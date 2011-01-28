@@ -189,12 +189,13 @@
 			size = width / 800
 		this.el.innerHTML =
 			 '.slide {'
-				+ ' left:'+padLeft.toFixed()+'px;'
-				+ ' top:'+padTop.toFixed()+'px;'
-				+ ' height:'+height.toFixed()+'px;'
-				+ ' width:'+width.toFixed()+'px;'
-			+' }'
-			+'#slides { font-size:'+size.toFixed(4)+'px; }\n'
+				+' height:'+height.toFixed()+'px;'
+				+' width:'+width.toFixed()+'px;'
+			+' }\n'
+			+'#slides {'
+				+' padding:'+padTop.toFixed()+'px '+padLeft.toFixed()+'px;'
+				+' font-size:'+size.toFixed(4)+'px;'
+			+' }\n'
 	}
 	pow.slides.style.load = pow.on.load(function() {
 		pow.slides.style.resize()
