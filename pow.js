@@ -90,6 +90,7 @@
 		},
 		start: function() {
 			var self = this
+			this.on.frame.fire(0)
 			this.interval = setInterval(function() { self.frame() }, this.step) 
 		},
 		stop: function() {
