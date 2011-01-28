@@ -12,11 +12,11 @@ pow.log.enabled = true
 ;(pow.loader = function() {
 	pow.log('{POW!}')
 	var powScript = document.getElementById('pow')
-	if (!powScript.hasAttribute('loaded')) {
+	if (!powScript.hasAttribute('data-loaded')) {
 		// TODO: Replace this double request silliness with a string eval once we have a compilation system in place.
 		try {
 			var req = new XMLHttpRequest(),
-				origin = powScript.src || powScript.getAttribute('origin')
+				origin = powScript.src || powScript.getAttribute('data-origin')
 			req.open('GET', origin, false)
 			req.send()
 			if (req.status == 200) {
@@ -33,7 +33,7 @@ pow.log.enabled = true
 		} catch (err) {}
 		pow.log('Failed to update pow.js from ' + origin + '. Continuing.')
 	} else {
-		powScript.removeAttribute('loaded')
+		powScript.removeAttribute('data-loaded')
 		pow.log('Detected restart. Continuing.')
 	}
 })()
