@@ -12,18 +12,18 @@ pow.log.enabled = true
 ;(pow.loader = function() {
 	pow.log('{POW!}')
 	var powScript = document.getElementById('pow')
-	if (!powScript.dataset.loaded) {
+	if (!powScript.hasAttribute('loaded')) {
 		// TODO: Replace this double request silliness with a string eval once we have a compilation system in place.
 		try {
 			var req = new XMLHttpRequest(),
-				origin = powScript.src || powScript.dataset.origin
+				origin = powScript.src || powScript.getAttribute('origin')
 			req.open('GET', origin, false)
 			req.send()
 			if (req.status == 200) {
 				var innerScript = document.createElement('script')
 				innerScript.id = 'pow'
-				innerScript.dataset.origin = origin
-				innerScript.dataset.loaded = true
+				innerScript.setAttribute('data-origin', origin)
+				innerScript.setAttribute('data-loaded', true)
 				innerScript.innerHTML = req.responseText
 				pow.log('Loaded updated pow.js from ' + origin + '. Restarting.')
 				document.head.insertBefore(innerScript, powScript)
@@ -33,7 +33,7 @@ pow.log.enabled = true
 		} catch (err) {}
 		pow.log('Failed to update pow.js from ' + origin + '. Continuing.')
 	} else {
-		delete powScript.dataset.loaded;
+		powScript.removeAttribute('loaded')
 		pow.log('Detected restart. Continuing.')
 	}
 })()
