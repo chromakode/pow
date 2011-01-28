@@ -122,9 +122,9 @@
 		},
 		show: function() {
 			pow.slide.hide()
-			this.el.classList.add('current')
 			pow.slide = this
 			this.on.show.fire()
+			this.el.classList.add('current')
 		},
 		hide: function() {
 			this.el.classList.remove('current')
