@@ -91,7 +91,7 @@
 		start: function() {
 			var self = this
 			this.on.frame.fire(0)
-			this.interval = setInterval(function() { self.frame() }, this.step) 
+			this.interval = setInterval(this.frame.bind(this), this.step)
 		},
 		stop: function() {
 			if (this.interval) {
@@ -162,7 +162,7 @@
 		},
 		animate: function(duration, args) {
 			var anim = new pow.Animation(duration, args)
-			this.on.hide.once(anim.stop)
+			this.on.hide.once(anim.stop.bind(anim))
 			return anim
 		}
 	}
