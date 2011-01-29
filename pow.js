@@ -89,7 +89,6 @@
 			}
 		},
 		start: function() {
-			var self = this
 			this.on.frame.fire(0)
 			this.interval = setInterval(this.frame.bind(this), this.step)
 		},
