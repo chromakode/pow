@@ -20,20 +20,6 @@
 	].join('\n')
 
 	pow.nav = {}
-	pow.nav.button = {
-		first: function() { pow.slides[0].show() },
-		last: function() { pow.slides[pow.slides.length-1].show() },
-		prev: function() {
-			if (pow.slide.prev) {
-				pow.slide.prev.show()
-			}
-		},
-		next: function() {
-			if (pow.slide.next) {
-				pow.slide.next.show()
-			}
-		}
-	}
 	pow.nav.update = pow.slides.on.show(function() {
 		pow.nav.statusEl.textContent = pow.slide.index+1 + ' / ' + pow.slides.length
 	})
@@ -48,11 +34,10 @@
 			button.className = 'nav '+name
 			button.innerHTML = '<svg class="icon" viewBox="0 0 60 60">'+icon[name]+'</svg>'
 			button.addEventListener('click', function(e) {
-				pow.nav.button[name]()
+				pow.slides.go[name]()
 				e.stopPropagation()
 			}, false)
 			el.appendChild(button)
-			pow.nav.button[name].el = button
 		})
 
 		var statusEl = pow.nav.statusEl = document.createElement('div')
@@ -85,7 +70,7 @@
 				39: 'next',  // Right
 				40: 'last'   // Down
 			}[e.keyCode]
-			if (action) { pow.nav.button[action]() }
+			if (action) { pow.slides.go[action]() }
 		}, false)
 	})
 })()

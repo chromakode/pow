@@ -205,6 +205,9 @@
 	}
 
 	pow.slides = []
+	pow.slides.on = {}
+	pow.slides.on.show = new pow.signal()
+	pow.slides.on.hide = new pow.signal()
 	pow.slides.load = pow.on.load(function() {
 		var els = document.getElementsByClassName('slide')
 		Array.prototype.forEach.call(els, function(el, index) {
@@ -214,33 +217,45 @@
 	pow.slides.start = pow.on.start(function() {
 		pow.slides[0].show()
 	})
-	pow.slides.on = {}
-	pow.slides.on.show = new pow.signal()
-	pow.slides.on.hide = new pow.signal()
+
+	pow.slides.go = {
+		first: function() { pow.slides[0].show() },
+		last: function() { pow.slides[pow.slides.length-1].show() },
+		prev: function() {
+			if (pow.slide.prev) {
+				pow.slide.prev.show()
+			}
+		},
+		next: function() {
+			if (pow.slide.next) {
+				pow.slide.next.show()
+			}
+		}
+	}
+
 	pow.slides.style = {}
 	pow.slides.style.resize = function() {
 		this.el = this.el || pow.style.get('pow-slide-scale-style')
-		var slides = document.getElementById('slides'),
-			width = Math.min(slides.offsetWidth, (4/3) * slides.offsetHeight),
-			height = .75 * width,
-			padLeft = (slides.offsetWidth - width) / 2
-			padTop = (slides.offsetHeight - height) / 2
+		var width = Math.min(window.innerWidth, (4/3) * window.innerHeight) - 10,
+			height = .75 * width - 10,
+			padLeft = (window.innerWidth - width) / 2,
+			padTop = (window.innerHeight - height) / 2,
 			size = width / 800
 		this.el.innerHTML =
-			 '.slide {'
+			 '#slides {'
+				+' left:'+padLeft+'px;'
+				+' top:'+padTop+'px;'
 				+' height:'+height.toFixed()+'px;'
 				+' width:'+width.toFixed()+'px;'
-			+' }\n'
-			+'#slides {'
-				+' padding:'+padTop.toFixed()+'px '+padLeft.toFixed()+'px;'
 				+' font-size:'+size.toFixed(4)+'px;'
 			+' }\n'
 	}
 	pow.slides.style.load = pow.on.load(function() {
 		pow.slides.el = document.getElementById('slides')
-		pow.slides.el.addEventListener('click', function(e) {
-			if (pow.slide.next) { pow.slide.next.show() }
-		}, false)
+		pow.slides.el.addEventListener('click', pow.slides.go.next, false)
+		window.addEventListener('click', function(e) {
+			if (e.target == document.documentElement) { pow.slides.go.next() }
+		})
 		pow.slides.style.resize()
 		window.addEventListener('resize', function() { pow.slides.style.resize() }, false)
 	})
