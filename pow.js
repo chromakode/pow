@@ -1,47 +1,50 @@
 // {POW!}
 
-(function() {
-	pow = {}
+pow = {}
 
-	pow.log = function() {
-		if (console.log && pow.log.enabled) {
-			console.log.apply(console, arguments)
+pow.log = function() {
+	if (console.log && pow.log.enabled) {
+		console.log.apply(console, arguments)
+	}
+}
+pow.log.enabled = true
+
+pow.log('{POW!}')
+
+pow.module = function(name, run) {
+	var scripts = document.getElementsByTagName('script'),
+		script = scripts[scripts.length-1]
+	
+	if (script.hasAttribute('data-loaded')) {
+		pow.log('Continuing ['+name+'] after restart.')
+		script.removeAttribute('data-loaded')
+		run()
+	} else {
+		var origin = script.src || script.getAttribute('data-origin')
+		if (!origin) { return }
+		try {
+			var req = new XMLHttpRequest()
+			req.open('GET', origin, false)
+			req.send()
+		} catch (err) {
+			pow.log('Failed to update ['+name+'].')
+			run()
+		}
+		if (req.status == 200) {
+			var inlineScript = document.createElement('script')
+			inlineScript.innerHTML = req.responseText
+			inlineScript.setAttribute('data-origin', origin)
+			inlineScript.setAttribute('data-loaded', true)
+			pow.log('Loaded updated ['+name+'].')
+			var parent = script.parentNode;
+			parent.removeChild(script)
+			parent.appendChild(inlineScript)
+			return inlineScript
 		}
 	}
-	pow.log.enabled = true
+}
 
-	pow.update = function() {
-		pow.log('{POW!}')
-		var powScript = document.getElementById('pow')
-		if (!powScript.hasAttribute('data-loaded')) {
-			// TODO: Replace this double request silliness with a string eval once we have a compilation system in place.
-			try {
-				var req = new XMLHttpRequest(),
-					origin = powScript.src || powScript.getAttribute('data-origin')
-				req.open('GET', origin, false)
-				req.send()
-			} catch (err) {
-				pow.log('Failed to update pow.js from ' + origin + '. Continuing.')
-				return
-			}
-			if (req.status == 200) {
-				var innerScript = document.createElement('script')
-				innerScript.id = 'pow'
-				innerScript.setAttribute('data-origin', origin)
-				innerScript.setAttribute('data-loaded', true)
-				innerScript.innerHTML = req.responseText
-				pow.log('Loaded updated pow.js from ' + origin + '. Restarting.')
-				document.head.insertBefore(innerScript, powScript)
-				document.head.removeChild(powScript)
-				return true
-			}
-		} else {
-			powScript.removeAttribute('data-loaded')
-			pow.log('Detected restart. Continuing.')
-		}
-	}
-	if (pow.update() == true) { return }
-
+pow.module('base', function() {
 	pow.signal = function() {
 		var handlers = []
 		function register(handler) {
@@ -264,4 +267,4 @@
 		pow.on.load.fire()
 		pow.on.start.fire()
 	}, false)
-})()
+})

@@ -1,4 +1,4 @@
-(function() {
+pow.module('nav', function() {
 	var icon = {
 		first: '<path d="M 15,30 15,55 10,55 10,5 15,5 15,30, 45,0, 45,60 z"></path>',
 		prev: '<path d="M 15,30, 45,0, 45,60 z"></path>',
@@ -73,4 +73,4 @@
 			if (action) { pow.slides.go[action]() }
 		}, false)
 	})
-})()
+})
