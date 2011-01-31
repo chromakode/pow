@@ -59,5 +59,10 @@
 				fade.reverse()
 			}
 		}, true)
+		document.addEventListener('mouseout', function(e) {
+			if (!e.relatedTarget) {
+				fade.reverse()
+			}
+		}, false)
 	})
 })()
