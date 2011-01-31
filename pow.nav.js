@@ -8,9 +8,9 @@
 
 	navStyle = [
 		'#pow-nav { position:absolute; width:200px; height:50; left:50%; margin-left:-100px; padding-top:20px; bottom:20px; opacity:0; }',
-		'#pow-nav .nav { display:inline-block; width:48px; height:50px; margin:1px; background:rgba(0,0,0,.85); '+pow.style.shadow('0 3px 0 rgba(0,0,0,.5)')+'; }',
+		'#pow-nav .nav { display:inline-block; width:48px; height:50px; margin:1px; background:rgba(0,0,0,.85); '+pow.style.shadow('0 3px 3px rgba(0,0,0,.5)')+'; }',
 		'#pow-nav .nav:hover { background:rgba(0,0,0,.90); }',
-		'#pow-nav .nav:active { background:rgba(0,0,0,1); '+pow.style.shadow('0 5px 0 rgba(0,0,0,.7)')+'; }',
+		'#pow-nav .nav:active { background:rgba(0,0,0,1); }',
 		'#pow-nav .nav .icon { display:block; margin:20%; width:60%; height:60%; }',
 		'#pow-nav .nav path { fill:white; }',
 		'#pow-nav .nav.first { border-radius:10px 0 0 10px; }',
