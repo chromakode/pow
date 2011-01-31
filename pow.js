@@ -67,8 +67,8 @@
 	}
 
 	pow.on = {}
-	pow.on.load = new pow.signal()
-	pow.on.start = new pow.signal()
+	pow.on.load = new pow.signal()  // After window.onload.
+	pow.on.start = new pow.signal() // After loading completes.
 	// pow.on.cleanup -- for cleaning the dom prior to saves?
 
 	pow.Animation = function(duration, args) {
