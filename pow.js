@@ -258,7 +258,7 @@ pow.module('base', function() {
 		pow.slides.el.addEventListener('click', pow.slides.go.next, false)
 		window.addEventListener('click', function(e) {
 			if (e.target == document.documentElement) { pow.slides.go.next() }
-		})
+		}, false)
 		pow.slides.style.resize()
 		window.addEventListener('resize', function() { pow.slides.style.resize() }, false)
 	})
