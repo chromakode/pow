@@ -232,6 +232,10 @@
 			+' }\n'
 	}
 	pow.slides.style.load = pow.on.load(function() {
+		pow.slides.el = document.getElementById('slides')
+		pow.slides.el.addEventListener('click', function(e) {
+			if (pow.slide.next) { pow.slide.next.show() }
+		}, false)
 		pow.slides.style.resize()
 		window.addEventListener('resize', function() { pow.slides.style.resize() }, false)
 	})
@@ -239,8 +243,5 @@
 	window.addEventListener('load', function() {
 		pow.on.load.fire()
 		pow.on.start.fire()
-	}, false)
-	window.addEventListener('click', function(e) {
-		if (pow.slide.next) { pow.slide.next.show() }
 	}, false)
 })()
