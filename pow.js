@@ -156,7 +156,7 @@
 	pow.Slide = function(index, el) {
 		this.index = index
 		this.el = el
-		this._setup();
+		this._setup()
 	}
 	pow.Slide.prototype = {
 		_setup: function() {
