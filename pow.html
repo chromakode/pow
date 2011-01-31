@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<script src="pow.js" id="pow"></script>
+		<script src="pow.nav.js"></script>
 		<!--<script src="pow.edit.js"></script>-->
 		<style>
 			body { margin:0; background:#111; }
@@ -24,7 +25,7 @@
 						pow.slide.animate(250, {
 							frame: function(val) { pow.slide.el.style.fontSize = val + "em"	},
 							finish: function() { pow.slide.el.style.fontSize = "" }
-						}).start()
+						}).play()
 					})
 				</script>
 				<h1>POW!</h1>

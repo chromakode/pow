@@ -81,24 +81,38 @@
 		this.step = 1000/60
 	}
 	pow.Animation.prototype = {
+		get finished() {
+			return this.duration && (!this.reversed ? this.elapsed == this.duration : this.elapsed == 0)
+		},
 		frame: function() {
+			this.elapsed += this.step * (!this.reversed ? 1 : -1)
+			this.elapsed = Math.min(Math.max(0, this.elapsed), this.duration)
 			this.on.frame.fire(this.elapsed / this.duration)
-			this.elapsed += this.step
-			if (this.duration && this.elapsed > this.duration) {
+			if (this.finished) {
 				this.stop()
 			}
 		},
 		start: function() {
-			this.on.frame.fire(0)
+			if (this.interval || this.finished) { return }
+			this.on.frame.fire(this.elapsed)
 			this.interval = setInterval(this.frame.bind(this), this.step)
 		},
 		stop: function() {
 			if (this.interval) {
-				this.on.frame.fire(1)
 				clearInterval(this.interval)
 				this.interval = null
 				this.on.finish.fire()
 			}
+		},
+		play: function(reset) {
+			if (reset) { this.elapsed = 0 }
+			this.reversed = false
+			this.start()
+		},
+		reverse: function(reset) {
+			if (reset) { this.elapsed = this.duration }
+			this.reversed = true
+			this.start()
 		}
 	}
 
@@ -109,6 +123,24 @@
 			el = document.createElement('style')
 			el.id = styleId
 			document.head.appendChild(el)
+		}
+		return el
+	}
+	pow.style.shadow = function(spec) {
+		return ['', '-webkit-', '-moz-'].map(function(prefix) {
+			return prefix+'box-shadow: '+spec
+		}).join('; ')
+	}
+
+	pow.el = {}
+	pow.el.replace = function(elId, parentEl) {
+		var el = document.getElementById(elId)
+		if (el) {
+			el.innerHTML = ''
+		} else {
+			el = document.createElement('div')
+			el.id = elId
+			;(parentEl || document.body).appendChild(el)
 		}
 		return el
 	}
@@ -156,7 +188,7 @@
 		get next() {
 			return (this.index < pow.slides.length - 1) && pow.slides[this.index + 1]
 		},
-		get previous() {
+		get prev() {
 			return (this.index > 0) && pow.slides[this.index - 1]
 		},
 		animate: function(duration, args) {
@@ -179,7 +211,7 @@
 	pow.slides.on.hide = new pow.signal()
 	pow.slides.style = {}
 	pow.slides.style.resize = function() {
-		this.el = this.el || pow.style.get('pow-slide-scale')
+		this.el = this.el || pow.style.get('pow-slide-scale-style')
 		var slides = document.getElementById('slides'),
 			width = Math.min(slides.offsetWidth, (4/3) * slides.offsetHeight),
 			height = .75 * width,
