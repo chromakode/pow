@@ -217,9 +217,6 @@ pow.module('base', function() {
 			pow.slides.push(new pow.Slide(index, el))
 		})
 	})
-	pow.slides.start = pow.on.start(function() {
-		pow.slides[0].show()
-	})
 
 	pow.slides.go = {
 		first: function() { if (pow.slide.prev) { pow.slides[0].show() } },
@@ -255,6 +252,14 @@ pow.module('base', function() {
 		}, false)
 		pow.slides.style.resize()
 		window.addEventListener('resize', function() { pow.slides.style.resize() }, false)
+	})
+	
+	pow.url = {}
+	pow.url.update = pow.slides.on.show(function() {
+		window.location.hash = pow.slide.index == 0 ? '' : pow.slide.index
+	})
+	pow.url.load = pow.on.start(function() {
+		pow.slides[window.location.hash.substr(1) || 0].show()
 	})
 
 	window.addEventListener('load', function() {
