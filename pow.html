@@ -24,8 +24,8 @@
 				<script>
 					pow.slide.on.show(function() {
 						pow.slide.el.style.cssText = "white-space:nowrap;"
-						pow.slide.animate(800, {
-							frame: function(val) { pow.slide.el.style.fontSize = Math.min(1, val*8)*(Math.sin(6*Math.PI*val)*(1-val)*.25+1)+ "em" },
+						pow.slide.animate(400, {
+							frame: function(val) { pow.slide.el.style.fontSize = Math.min(1, val*4)*(Math.sin(3*Math.PI*val)*(1-val)*.25+1) + "em" },
 							finish: function() { pow.slide.el.style.fontSize = "" }
 						}).play()
 					})
