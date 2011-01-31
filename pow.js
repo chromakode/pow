@@ -259,9 +259,10 @@ pow.module('base', function() {
 	pow.url.update = pow.slides.on.show(function() {
 		window.location.hash = pow.slide.index == 0 ? '' : pow.slide.index
 	})
-	pow.url.load = pow.on.start(function() {
+	pow.url.read = pow.on.start(function() {
 		pow.slides[window.location.hash.substr(1) || 0].show()
 	})
+	window.addEventListener('hashchange', pow.url.read, false)
 
 	window.addEventListener('load', function() {
 		pow.on.load.fire()
