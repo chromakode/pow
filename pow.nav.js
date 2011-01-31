@@ -53,7 +53,7 @@
 			}
 		})
 		document.addEventListener('mousemove', function(e) {
-			if (e.y > el.offsetTop) {
+			if (e.pageY > el.offsetTop) {
 				fade.play()
 			} else {
 				fade.reverse()
