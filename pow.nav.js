@@ -30,7 +30,6 @@ pow.module('nav', function() {
 		
 		;['first', 'prev', 'next', 'last'].forEach(function(name) {
 			var button = document.createElement('div')
-			button.id = "pow-nav"+name
 			button.className = 'nav '+name
 			button.innerHTML = '<svg class="icon" viewBox="0 0 60 60">'+icon[name]+'</svg>'
 			button.addEventListener('click', function(e) {
