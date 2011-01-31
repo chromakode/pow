@@ -212,6 +212,12 @@ pow.module('base', function() {
 	pow.slides.on.show = new pow.signal()
 	pow.slides.on.hide = new pow.signal()
 	pow.slides.load = pow.on.load(function() {
+		pow.slides.el = document.getElementById('slides')
+		pow.slides.el.addEventListener('click', pow.slides.go.next, false)
+		window.addEventListener('click', function(e) {
+			if (e.target == document.documentElement) { pow.slides.go.next() }
+		}, false)
+
 		var els = document.getElementsByClassName('slide')
 		Array.prototype.forEach.call(els, function(el, index) {
 			pow.slides.push(new pow.Slide(index, el))
@@ -245,11 +251,6 @@ pow.module('base', function() {
 			+' }\n'
 	}
 	pow.slides.style.load = pow.on.load(function() {
-		pow.slides.el = document.getElementById('slides')
-		pow.slides.el.addEventListener('click', pow.slides.go.next, false)
-		window.addEventListener('click', function(e) {
-			if (e.target == document.documentElement) { pow.slides.go.next() }
-		}, false)
 		pow.slides.style.resize()
 		window.addEventListener('resize', function() { pow.slides.style.resize() }, false)
 	})
