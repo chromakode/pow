@@ -164,6 +164,7 @@ pow.module('base', function() {
 	pow.Slide = function(index, el) {
 		this.index = index
 		this.el = el
+		this.el.classList.remove('current')
 		this._setup()
 	}
 	pow.Slide.prototype = {
