@@ -132,6 +132,11 @@
 			return prefix+'box-shadow: '+spec
 		}).join('; ')
 	}
+	pow.style.disableSelection = function() {
+		return ['', '-webkit-', '-moz-'].map(function(prefix) {
+			return prefix+'user-select:none'
+		}).join('; ') + '; cursor:default'
+	}
 
 	pow.el = {}
 	pow.el.replace = function(elId, parentEl) {

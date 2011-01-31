@@ -7,7 +7,7 @@
 	}
 
 	navStyle = [
-		'#pow-nav { position:absolute; width:200px; height:70px; left:50%; line-height:0; margin-left:-100px; padding-top:20px; bottom:15px; opacity:0; }',
+		'#pow-nav { position:absolute; width:200px; height:70px; left:50%; line-height:0; margin-left:-100px; padding-top:20px; bottom:15px; opacity:0; '+pow.style.disableSelection()+'; }',
 		'#pow-nav .nav { display:inline-block; width:48px; height:50px; }',
 		'#pow-nav .nav, #pow-nav .status { margin:1px; background:rgba(0,0,0,.85); '+pow.style.shadow('0 3px 3px rgba(0,0,0,.5)')+'; }',
 		'#pow-nav .nav:hover { background:rgba(0,0,0,.90); }',
