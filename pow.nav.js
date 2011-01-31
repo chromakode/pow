@@ -76,5 +76,16 @@
 				fade.reverse()
 			}
 		}, false)
+		document.addEventListener('keydown', function(e) {
+			var action = {
+				13: 'next',  // Enter
+				32: 'next',  // Space
+				37: 'prev',  // Left
+				38: 'first', // Top
+				39: 'next',  // Right
+				40: 'last'   // Down
+			}[e.keyCode]
+			if (action) { pow.nav.button[action]() }
+		}, false)
 	})
 })()
