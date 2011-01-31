@@ -245,11 +245,13 @@ pow.module('base', function() {
 			padTop = (window.innerHeight - height) / 2,
 			size = width / 800
 		this.el.innerHTML =
-			 '#slides {'
-				+' left:'+padLeft+'px;'
-				+' top:'+padTop+'px;'
+			 '#slides, .slide {'
 				+' height:'+height.toFixed()+'px;'
 				+' width:'+width.toFixed()+'px;'
+			+'}\n'
+			+'#slides {'
+				+' left:'+padLeft+'px;'
+				+' top:'+padTop+'px;'
 				+' font-size:'+size.toFixed(4)+'px;'
 			+' }\n'
 	}

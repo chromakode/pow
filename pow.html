@@ -7,8 +7,8 @@
 		<style>
 			html { cursor:none; }
 			body { margin:0; background:#111; }
-			#slides { position:absolute; display:table; overflow:hidden; cursor:default; }
-			.slide { position:relative; top:0; left:0; background:#fff; border-radius:5em; }
+			#slides { position:absolute; display:block; overflow:hidden; cursor:default; }
+			.slide { background:#fff; border-radius:5px; }
 			.slide { display:none; }
 			.slide.current { display:table-cell; vertical-align:middle; }
 
@@ -23,8 +23,9 @@
 			<div class="slide">
 				<script>
 					pow.slide.on.show(function() {
-						pow.slide.animate(250, {
-							frame: function(val) { pow.slide.el.style.fontSize = val + "em"	},
+						pow.slide.el.style.cssText = "white-space:nowrap;"
+						pow.slide.animate(800, {
+							frame: function(val) { pow.slide.el.style.fontSize = Math.min(1, val*8)*(Math.sin(6*Math.PI*val)*(1-val)*.25+1)+ "em" },
 							finish: function() { pow.slide.el.style.fontSize = "" }
 						}).play()
 					})
