@@ -68,6 +68,7 @@
 
 	pow.on = {}
 	pow.on.load = new pow.signal()
+	pow.on.start = new pow.signal()
 	// pow.on.cleanup -- for cleaning the dom prior to saves?
 
 	pow.Animation = function(duration, args) {
@@ -204,6 +205,8 @@
 		Array.prototype.forEach.call(els, function(el, index) {
 			pow.slides.push(new pow.Slide(index, el))
 		})
+	})
+	pow.slides.start = pow.on.start(function() {
 		pow.slides[0].show()
 	})
 	pow.slides.on = {}
@@ -233,7 +236,10 @@
 		window.addEventListener('resize', function() { pow.slides.style.resize() }, false)
 	})
 
-	window.addEventListener('load', pow.on.load.fire, false)
+	window.addEventListener('load', function() {
+		pow.on.load.fire()
+		pow.on.start.fire()
+	}, false)
 	window.addEventListener('click', function(e) {
 		if (pow.slide.next) { pow.slide.next.show() }
 	}, false)
