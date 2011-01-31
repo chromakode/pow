@@ -222,18 +222,10 @@ pow.module('base', function() {
 	})
 
 	pow.slides.go = {
-		first: function() { pow.slides[0].show() },
-		last: function() { pow.slides[pow.slides.length-1].show() },
-		prev: function() {
-			if (pow.slide.prev) {
-				pow.slide.prev.show()
-			}
-		},
-		next: function() {
-			if (pow.slide.next) {
-				pow.slide.next.show()
-			}
-		}
+		first: function() { if (pow.slide.prev) { pow.slides[0].show() } },
+		last:  function() { if (pow.slide.next) { pow.slides[pow.slides.length-1].show() } },
+		prev:  function() { if (pow.slide.prev) { pow.slide.prev.show() } },
+		next:  function() { if (pow.slide.next) { pow.slide.next.show() } }
 	}
 
 	pow.slides.style = {}
