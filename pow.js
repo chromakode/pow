@@ -169,6 +169,7 @@ pow.module('base', function() {
 	pow.Slide.prototype = {
 		_setup: function() {
 			this.on = {}
+			this.on.load = new pow.signal()
 			this.on.show = new pow.signal()
 			this.on.hide = new pow.signal()
 
@@ -180,6 +181,8 @@ pow.module('base', function() {
 					eval(script.innerHTML)
 				}
 			})
+			
+			this.on.load.fire()
 			pow.slide = prevSlide
 		},
 		show: function() {
