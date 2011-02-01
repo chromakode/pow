@@ -264,7 +264,7 @@ pow.module('base', function() {
 	})
 	window.addEventListener('hashchange', pow.url.read, false)
 
-	window.addEventListener('load', function() {
+	window.addEventListener('DOMContentLoaded', function() {
 		pow.on.load.fire()
 		pow.on.start.fire()
 	}, false)
