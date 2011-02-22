@@ -3,7 +3,7 @@
 pow = {}
 
 pow.log = function() {
-	if (console.log && pow.log.enabled) {
+	if ('console' in window && console.log && pow.log.enabled) {
 		console.log.apply(console, arguments)
 	}
 }
