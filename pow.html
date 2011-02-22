@@ -17,20 +17,26 @@
 			.slide h2 { font-size:48em; font-weight:normal; }
 			.slide p, .slide ul { font-size:36em; }
 		</style>
+		<style>
+			.slide { font-family:sans-serif; }
+			.slide.logo { text-align:center; }
+		</style>
 	</head>
 	<body>
 		<div id="slides">
-			<div class="slide">
+			<div class="slide logo">
 				<script>
 					pow.slide.on.show(function() {
-						pow.slide.el.style.cssText = "white-space:nowrap;"
+						var logo = pow.slide.el.getElementsByTagName('object')[0]
 						pow.slide.animate(400, {
-							frame: function(val) { pow.slide.el.style.fontSize = Math.min(1, val*4)*(Math.sin(3*Math.PI*val)*(1-val)*.25+1) + "em" },
-							finish: function() { pow.slide.el.style.fontSize = "" }
+							frame: function(val) {
+								logo.height = 50*Math.min(1, val*4)*(Math.sin(3*Math.PI*val)*(1-val)*.25+1) + "%"
+							},
+							finish: function() {}
 						}).play()
 					})
 				</script>
-				<h1>POW!</h1>
+				<object data="logo.svg" width="50%" height="50%"><h1>POW!</h1></object>
 				<h2>A simple web presentation tool.</h2>
 			</div>
 			<div class="slide">
