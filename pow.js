@@ -159,7 +159,9 @@ pow.module('base', function() {
 	pow.slide = {}
 	pow.slide.hide = function() {}
 	pow.slide.on = {}
+	pow.slide.on.load = function() {}
 	pow.slide.on.show = function() {}
+	pow.slide.on.hide = function() {}
 
 	pow.Slide = function(index, el) {
 		this.index = index
