@@ -189,6 +189,7 @@ pow.module('base', function() {
 			pow.slide = prevSlide
 		},
 		show: function() {
+			if (pow.slide == this) { return; }
 			pow.slide.hide()
 			pow.slide = this
 			this.on.show.fire()
