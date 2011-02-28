@@ -274,6 +274,10 @@ pow.module('base', function() {
 		}
 	})
 	window.addEventListener('hashchange', pow.url.read, false)
+	
+	window.addEventListener('mouseover', function() {
+		window.focus()
+	}, false)
 
 	window.addEventListener('DOMContentLoaded', function() {
 		pow.on.load.fire()
