@@ -239,6 +239,18 @@ pow.module('base', function() {
 	}
 
 	pow.slides.style = {}
+	pow.slides.style.base = [
+		'html { cursor:none; }',
+		'body { margin:0; background:#111; }',
+		'#slides { position:absolute; display:block; overflow:hidden; cursor:default; }',
+		'.slide { background:#fff; border-radius:5px; }',
+		'.slide { display:none; }',
+		'.slide.current { display:table-cell; vertical-align:middle; }',
+		'.slide h1, .slide h2 { text-align:center; margin:0; }',
+		'.slide h1 { font-size:100em; }',
+		'.slide h2 { font-size:48em; font-weight:normal; }',
+		'.slide p, .slide > ul > li, .slide > ol > li { font-size:36em; }'
+	].join('\n')
 	pow.slides.style.scale = function() {
 		this.el = this.el || pow.style.get('pow-slide-scale-style')
 		var width = Math.min(window.innerWidth, (4/3) * window.innerHeight) - 10,
@@ -258,6 +270,7 @@ pow.module('base', function() {
 			+' }\n'
 	}
 	pow.slides.style.load = pow.on.load(function() {
+		pow.style.get('pow-slide-base-style').innerHTML = pow.slides.style.base
 		pow.slides.style.scale()
 		window.addEventListener('resize', function() { pow.slides.style.scale() }, false)
 	})
