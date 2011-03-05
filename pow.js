@@ -239,7 +239,7 @@ pow.module('base', function() {
 	}
 
 	pow.slides.style = {}
-	pow.slides.style.resize = function() {
+	pow.slides.style.scale = function() {
 		this.el = this.el || pow.style.get('pow-slide-scale-style')
 		var width = Math.min(window.innerWidth, (4/3) * window.innerHeight) - 10,
 			height = .75 * width - 10,
@@ -258,8 +258,8 @@ pow.module('base', function() {
 			+' }\n'
 	}
 	pow.slides.style.load = pow.on.load(function() {
-		pow.slides.style.resize()
-		window.addEventListener('resize', function() { pow.slides.style.resize() }, false)
+		pow.slides.style.scale()
+		window.addEventListener('resize', function() { pow.slides.style.scale() }, false)
 	})
 	
 	pow.url = {}
