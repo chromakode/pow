@@ -44,7 +44,7 @@ pow.module = function(name, run) {
 	}
 }
 
-pow.module('base', function() {
+pow.module('core', function() {
 	pow.signal = function() {
 		var handlers = []
 		function register(handler) {
