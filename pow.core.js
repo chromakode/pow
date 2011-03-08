@@ -82,7 +82,7 @@ pow.module('core', function() {
 		if (!el) {
 			el = document.createElement('style')
 			el.id = styleId
-			document.head.appendChild(el)
+			document.head.insertBefore(el, document.getElementsByTagName('style')[0])
 		}
 		return el
 	}
