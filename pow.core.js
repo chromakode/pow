@@ -141,20 +141,20 @@ pow.module('core', function() {
 				}
 			})
 			
-			this.on.load.fire()
+			this.on.load.fire(this)
 			pow.slide = prevSlide
 		},
 		show: function() {
 			if (pow.slide == this) { return; }
 			pow.slide.hide()
 			pow.slide = this
-			this.on.show.fire()
+			this.on.show.fire(this)
 			pow.slides.on.show.fire(this)
 			this.el.classList.add('current')
 		},
 		hide: function() {
 			this.el.classList.remove('current')
-			this.on.hide.fire()
+			this.on.hide.fire(this)
 			pow.slides.on.hide.fire(this)
 		},
 		get next() {
