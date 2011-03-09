@@ -174,9 +174,11 @@ pow.module('core', function() {
 	pow.slides.on.hide = new pow.signal()
 	pow.slides.load = pow.on.load(function() {
 		pow.slides.el = document.getElementById('slides')
-		pow.slides.el.addEventListener('click', pow.slides.go.next, false)
 		window.addEventListener('click', function(e) {
-			if (e.target == document.documentElement) { pow.slides.go.next() }
+			if (e.target == document.documentElement
+					|| e.target == pow.slides.el
+					|| e.target.parentNode == pow.slides.el)
+				{ pow.slides.go.next() }
 		}, false)
 
 		var els = document.getElementsByClassName('slide')
