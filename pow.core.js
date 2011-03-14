@@ -1,6 +1,4 @@
 pow.module('core', function() {
-	document.head || (document.head = document.getElementsByTagName('head')[0]);
-
 	pow.signal = function() {
 		var handlers = []
 		function register(handler) {

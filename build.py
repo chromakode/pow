@@ -64,6 +64,7 @@ bundles['pow'] = {
         'source code: http://github.com/chromakode/pow']),
     'modules': [
         init,
+        Module('compat', 'pow.compat.js'),
         Module('core', 'pow.core.js'),
         Module('nav', 'pow.nav.js')],
 }
