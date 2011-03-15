@@ -1,41 +1,93 @@
 <!doctype html>
 <html>
-	<head>
-		<script src="pow.js"></script>
-		<!--
-		<script src="pow.init.js"></script>
-		<script src="pow.compat.js"></script>
-		<script src="pow.core.js"></script>
-		<script src="pow.nav.js"></script>
-		-->
-		<style>
-			.slide { font-family:sans-serif; }
-			.slide.logo { text-align:center; }
-		</style>
-	</head>
-	<body>
-		<div id="slides">
-			<div class="slide logo">
-				<script>
-					pow.slide.on.show(function() {
-						var logo = pow.slide.el.getElementsByTagName('object')[0]
-						pow.slide.animate(400, {
-							frame: function(val) {
-								logo.height = 50*Math.min(1, val*4)*(Math.sin(3*Math.PI*val)*(1-val)*.25+1) + "%"
-							},
-							finish: function() {}
-						}).play()
-					})
-				</script>
-				<object data="logo.svg" width="50%" height="50%"><h1>POW!</h1></object>
-				<h2>A simple web presentation tool.</h2>
-			</div>
-			<div class="slide">
-				<ul>
-					<li>Welcome to POW!</li>
-					<li>Pow makes it easy to create simple, powerful presentations using HTML and JavaScript.</li>
-				</ul>
-			</div>
-		</div>
-	</body>
+<head>
+	<script src="http://usepow.com"></script>
+	<!--
+	<script src="pow.init.js"></script>
+	<script src="pow.compat.js"></script>
+	<script src="pow.core.js"></script>
+	<script src="pow.nav.js"></script>
+	-->
+	<script src="highlight.pack.js" onload="hljs.tabReplace = '    '; hljs.initHighlightingOnLoad()"></script>
+	<link rel="stylesheet" href="ir_black.css">
+	<style>
+		.slide { font-family:sans-serif; text-align:center; }
+		.slide.logo { text-align:center; }
+		.slide h1 { font-size:48em; font-weight:normal; }
+		.slide h2 { font-size:40em; font-weight:bold; }
+		.slide h1, h2 { letter-spacing:-.05em; }
+		.slide h1 > object { height:1.75em; width:2.25em; vertical-align:middle; }
+		.slide h1 > button { font-size:1em; }
+		.slide a { border:none; color:black; background:#ddd; padding:.25em .5em; border-radius:.25em; }
+		.slide code { text-align:left; font-size:20em; font-family:monospace; padding:1em 2em; }
+		#demo-iframe { border:6em inset; }
+		#animated h1 { margin-top:.25em; }
+		#info { text-align:center; }
+	</style>
+</head>
+<body>
+<div id="slides">
+	<div class="slide logo">
+		<script>
+			pow.slide.on.show(function() {
+				var logo = pow.slide.el.getElementsByTagName('object')[0]
+				pow.slide.animate(400, {
+					frame: function(val) {
+						logo.height = 50*Math.min(1, val*4)*(Math.sin(3*Math.PI*val)*(1-val)*.25+1) + "%"
+					},
+					finish: function() {}
+				}).play()
+			})
+		</script>
+		<object data="logo.svg" width="50%" height="50%"><h1>POW!</h1></object>
+		<h1>A simple web presentation tool.</h1>
+	</div>
+	<div class="slide">
+		<h1>Create simple, powerful presentations using just <strong>HTML</strong> and <strong>JavaScript</strong>.</h2>
+	</div>
+	<div class="slide" id="animated">
+		<h1>Presentations can be animated.</h1>
+		<iframe title="YouTube video player" width="100%" height="80%" src="http://www.youtube.com/embed/qs1bG6BIYlo" frameborder="0" allowfullscreen></iframe>
+	</div>
+	<div class="slide">
+		<h1>Presentations can be <button onclick="this.textContent = 'active'">interactive</button>.</h1>
+	</div>
+	<div class="slide">
+		<script>
+			pow.slide.on.load(function(slide) {
+				var code = document.getElementById('demo-code'),
+					iframe = document.getElementById('demo-iframe')
+
+				iframe.contentDocument.write(code.textContent = [
+					'<html>',
+					'<head>',
+					'\t<script src="http://usepow.com"></scr'+'ipt>',
+					'</head>',
+					'<body>',
+					'\t<div id="slides">',
+					'\t\t<div class="slide">',
+					'\t\t\t<h1>Hello, world.</h1>',
+					'\t\t</div>',
+					'\t</div>',
+					'</body>',
+					'</html>'
+				].join('\n'))
+				iframe.contentDocument.close()
+			})
+		</script>
+		<h1>Presentations can be simple.</h1>
+		<pre><code class="html" id="demo-code"></code></pre>
+	</div>
+	<div class="slide">
+		<h1>This is <object data="logo.svg">POW!</object>.</h1>
+		<iframe id="demo-iframe" width="80%" height="60%"></iframe>
+	</div>
+	<div class="slide">
+		<h1>What will you make with it?</h1>
+	</div>
+	<div class="slide" id="info">
+		<p><a href="http://github.com/chromakode/pow">github.com/chromakode/pow</a></p>
+	</div>
+</div>
+</body>
 </html>
