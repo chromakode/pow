@@ -60,6 +60,7 @@ bundles = {}
 bundles['pow'] = {
     'name': 'pow',
     'header': '\n'.join([
+        '<body onload="window.location.href=\'http://usepow.com/about\'">',
         'POW: a simple javascript presentation tool.',
         'source code: http://github.com/chromakode/pow']),
     'modules': [
