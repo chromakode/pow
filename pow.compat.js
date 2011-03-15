@@ -40,7 +40,7 @@ pow.module('compat', function() {
 				'<style>',
 				'	.pow-mask, .pow-warning { cursor:default; }',
 				'	.pow-mask { position:absolute; top:0; left:0; bottom:0; right:0; background:black; opacity:.5; }',
-				'	.pow-warning { position:absolute; top:50%; height:22em; margin-top:-11em; left:50%; width:36em; margin-left:-18em; background:#111; border:10px solid #cc0; font-family:sans-serif; color:white; overflow:auto; z-index:999; }',
+				'	.pow-warning { position:absolute; top:50%; height:22em; margin-top:-11.75em; left:50%; width:36em; margin-left:-18.75em; background:#111; border:.75em solid #cc0; font-family:sans-serif; color:white; overflow:auto; z-index:999; }',
 				'	.pow-warning h1, h2 { margin:1em; }',
 				'	.pow-warning h1 { font-size:1.7em; }',
 				'	.pow-warning h2 { font-size:1.5em; color:#aaa; }',
