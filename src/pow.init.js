@@ -14,7 +14,7 @@ pow.module = function(name, run) {
 	var moduleInfo = pow.module.info[name] || {version: -1},
 		loading = pow.module.loading
 	
-	if (loading && loading[name] <= moduleInfo.version) { return; }
+	if (loading && loading[name] <= moduleInfo.version) { return }
 	pow.module.info[name] = {version: loading ? loading[name] : 'dev'}
 	pow.log('Running module ['+name+'].')
 	run()
