@@ -55,7 +55,7 @@ def build_bundle(closure, name, header, modules, wrap_fmt=None, extra_data=None)
     if (extra_data): bundle.update(extra_data)
     return wrap_fmt.format(header=header, bundle=json.dumps(bundle, indent=1, sort_keys=True))
 
-init = Module('init', 'pow.init.js', True)
+init = Module('init', 'src/pow.init.js', True)
 bundles = {}
 bundles['pow'] = {
     'name': 'pow',
@@ -65,9 +65,9 @@ bundles['pow'] = {
         'source code: http://github.com/chromakode/pow']),
     'modules': [
         init,
-        Module('compat', 'pow.compat.js'),
-        Module('core', 'pow.core.js'),
-        Module('nav', 'pow.nav.js')],
+        Module('compat', 'src/pow.compat.js'),
+        Module('core', 'src/pow.core.js'),
+        Module('nav', 'src/pow.nav.js')],
 }
 
 def main():
