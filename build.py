@@ -119,7 +119,7 @@ bundles = [{
 }, {
     'name': 'highlight',
     'header': '\n'.join([
-        'pow.highlight: syntax highlighting for pow.',
+        'pow.highlight: syntax highlighting by highlight.js.',
         'Thanks to http://softwaremaniacs.org/soft/highlight/en/']),
     'modules': [
         Module('highlight', 'modules/highlight/pow.highlight.js', {
