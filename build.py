@@ -54,7 +54,7 @@ class Bundle:
         versions = versions or self.get_versions()
         wrap_fmt = wrap_fmt or '\n'.join([
             '// {header}',
-            'pow.module.load({bundle})'])
+            'pow.bundle({bundle})'])
         bundle = {
             'versions': versions,
             'data': src,
@@ -73,7 +73,7 @@ class InitBundle(Bundle):
         # To bootstrap, call the init module if pow is not defined.
         loader_wrap_fmt = '\n'.join([
             '// {header}',
-            '(function(b) {{ if (!window.pow) eval(b.init); pow.module.load(b); }})({bundle})'])
+            '(function(b) {{ if (!window.pow) eval(b.init); pow.bundle(b); }})({bundle})'])
 
         # Build bundle with a special init property containing the init module.
         return Bundle.build(self, closure,

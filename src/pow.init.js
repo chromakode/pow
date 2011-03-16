@@ -21,7 +21,7 @@ pow.module = function(name, run) {
 }
 pow.module.info = {}
 pow.updating = window.location.hash == '#update'
-pow.module.load = function(bundle) {
+pow.bundle = function(bundle) {
 	function lastScript() {
 		var scripts = document.getElementsByTagName('script')
 		return scripts[scripts.length-1]
