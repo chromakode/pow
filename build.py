@@ -30,14 +30,37 @@ class Closure:
         return self._run(args)[0]
 
 class Module:
-    def __init__(self, name, src):
+    def __init__(self, name, src, includes=None):
         self.name = name
         self.src = src
+        self.includes = includes
+
+    def build(self):
+        if self.includes:
+            data = open(self.src).read()
+            for name, include in self.includes.iteritems():
+                data = data.replace('~{0}~'.format(name), include.read())
+            src = self.src + '.out'
+            open(src, 'w').write(data)
+            return src
+        else:
+            return self.src
 
     def get_version(self):
         p = Popen(['git', 'log', '--format=format:%ct', '-n 1', self.src], stdout=PIPE, stderr=PIPE)
         out, msg = p.communicate()
-        return int(out)
+        return int(out) if out else 0
+
+class ModuleFile:
+    def __init__(self, src):
+        self.src = src
+
+    def read(self):
+        return open(self.src).read()
+
+class ModuleFileData(ModuleFile):
+    def read(self):
+        return repr(ModuleFile.read(self))
 
 class Bundle:
     def __init__(self, name, header, modules):
@@ -49,7 +72,7 @@ class Bundle:
         return dict((module.name, module.get_version()) for module in self.modules)
 
     def build(self, closure, versions=None, wrap_fmt=None, extra_data=None):
-        src = closure.compile(module.src for module in self.modules)
+        src = closure.compile(module.build() for module in self.modules)
         header = self.header.replace('\n', '\n// ')
         versions = versions or self.get_versions()
         wrap_fmt = wrap_fmt or '\n'.join([
@@ -81,9 +104,10 @@ class InitBundle(Bundle):
             wrap_fmt=loader_wrap_fmt,
             extra_data={'init': closure.compile([init.src])})
 
-bundles = {}
-bundles['pow'] = {
+bundles = [{
     'name': 'pow',
+    'class': InitBundle,
+    'filename': 'pow.js',
     'header': '\n'.join([
         '<body style="display:none" onload="window.location.href=\'http://usepow.com/about\'">',
         'POW: a simple javascript presentation tool.',
@@ -92,7 +116,18 @@ bundles['pow'] = {
         Module('compat', 'src/pow.compat.js'),
         Module('core', 'src/pow.core.js'),
         Module('nav', 'src/pow.nav.js')],
-}
+}, {
+    'name': 'highlight',
+    'header': '\n'.join([
+        'pow.highlight: syntax highlighting for pow.',
+        'Thanks to http://softwaremaniacs.org/soft/highlight/en/']),
+    'modules': [
+        Module('highlight', 'modules/highlight/pow.highlight.js', {
+            'highlight.js': ModuleFile('modules/highlight/highlight.js'),
+            'javascript.js': ModuleFile('modules/highlight/javascript.js'),
+            'html-xml.js': ModuleFile('modules/highlight/html-xml.js'),
+            'ir_black.css': ModuleFileData('modules/highlight/ir_black.css')})],
+}]
 
 def main():
     if len(sys.argv) < 2:
@@ -107,8 +142,13 @@ def main():
         sys.exit(1)
 
     try:
-        pow_bundle = InitBundle(**bundles['pow'])
-        open('pow.js', 'w').write(pow_bundle.build(closure))
+        for data in bundles:
+            cls = data.get('class', Bundle)
+            filename = data.get('filename', 'pow.{0}.js'.format(data['name']))
+            bundle = cls(data['name'], data['header'], data['modules'])
+            open(filename, 'w').write(bundle.build(closure))
+            print 'Built bundle {0}: {1}'.format(data['name'], filename)
+
     except ClosureError, e:
         print "ERROR: An unknown error occurred running Closure Compiler:"
         print e
