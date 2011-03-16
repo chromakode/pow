@@ -3,7 +3,9 @@ pow.module('highlight', function() {
 	~javascript.js~
 	~html-xml.js~
 	var irBlackStyle = ~ir_black.css~
-	pow.style.get('pow-highlight-style').innerHTML = irBlackStyle
+	pow.on.load(function() {
+		pow.style.get('pow-highlight-style').innerHTML = irBlackStyle
+	})
 	hljs.tabReplace = '    '
 	hljs.initHighlightingOnLoad()
 })
