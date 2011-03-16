@@ -8,7 +8,6 @@ pow.log = function() {
 	}
 }
 pow.log.enabled = true
-
 pow.log('{POW!}')
 
 pow.module = function(name, run) {
@@ -21,23 +20,49 @@ pow.module = function(name, run) {
 	run()
 }
 pow.module.info = {}
+pow.updating = window.location.hash == '#update'
 pow.module.load = function(bundle) {
-	var scripts = document.getElementsByTagName('script'),
-		script = scripts[scripts.length-1],
-		origin = script.src || script.getAttribute('data-origin')
+	function lastScript() {
+		var scripts = document.getElementsByTagName('script')
+		return scripts[scripts.length-1]
+	}
 
-	if (script.hasAttribute('data-origin')) {
+	function runBundle() {
 		pow.log('Running bundle {'+origin+'}.')
 		pow.module.loading = bundle.versions
 		eval(bundle.data)
 		delete pow.module.loading
+	}
+
+	var script = lastScript(),
+		origin = script.src || script.getAttribute('data-origin'),
+		parent = script.parentNode
+
+	if (script.hasAttribute('data-origin')) {
+		if (pow.updating && !script.hasAttribute('data-loaded')) {
+			pow.log('Updating bundle {'+origin+'}.')
+			document.write('<script src="'+origin+'"></script>')
+			var newScript = lastScript()
+			newScript.addEventListener('load', function() {
+				pow.log('Successfully updated bundle {'+origin+'}.')
+				parent.removeChild(script)
+			}, false)
+			newScript.addEventListener('error', function() {
+				pow.log('Failed to update bundle {'+origin+'}. Using local version.')
+				parent.removeChild(newScript)
+				runBundle()
+			}, false)
+		} else {
+			runBundle()
+		}
+		script.removeAttribute('data-loaded')
 	} else {
 		pow.log('Inlining loaded bundle {'+origin+'}.')
 		var inlineScript = document.createElement('script')
 		inlineScript.innerHTML = bundle.wrap.replace('~b~', JSON.stringify(bundle))
 		inlineScript.setAttribute('data-origin', origin)
-		var parent = script.parentNode;
+		inlineScript.setAttribute('data-loaded', true)
 		parent.removeChild(script)
-		parent.appendChild(inlineScript)
+		parent.insertBefore(inlineScript, inlineScript.nextSibling)
 	}
 }
