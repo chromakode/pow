@@ -30,32 +30,57 @@ class Closure:
         return self._run(args)[0]
 
 class Module:
-    def __init__(self, name, src, exclude=False):
+    def __init__(self, name, src):
         self.name = name
         self.src = src
-        self.exclude = exclude
 
     def get_version(self):
         p = Popen(['git', 'log', '--format=format:%ct', '-n 1', self.src], stdout=PIPE, stderr=PIPE)
         out, msg = p.communicate()
         return int(out)
 
-def build_bundle(closure, name, header, modules, wrap_fmt=None, extra_data=None):
-    src = closure.compile(module.src for module in modules if not module.exclude)
-    header = header.replace('\n', '\n// ')
-    versions = dict((module.name, module.get_version()) for module in modules)
-    wrap_fmt = wrap_fmt or '\n'.join([
-        '// {header}',
-        'pow.module.load({bundle})'])
-    bundle = {
-        'versions': versions,
-        'data': src,
-        'wrap': wrap_fmt.format(header=header, bundle='~b~')
-    }
-    if (extra_data): bundle.update(extra_data)
-    return wrap_fmt.format(header=header, bundle=json.dumps(bundle, indent=1, sort_keys=True))
+class Bundle:
+    def __init__(self, name, header, modules):
+        self.name = name
+        self.header = header
+        self.modules = modules
 
-init = Module('init', 'src/pow.init.js', True)
+    def get_versions(self):
+        return dict((module.name, module.get_version()) for module in self.modules)
+
+    def build(self, closure, versions=None, wrap_fmt=None, extra_data=None):
+        src = closure.compile(module.src for module in self.modules)
+        header = self.header.replace('\n', '\n// ')
+        versions = versions or self.get_versions()
+        wrap_fmt = wrap_fmt or '\n'.join([
+            '// {header}',
+            'pow.module.load({bundle})'])
+        bundle = {
+            'versions': versions,
+            'data': src,
+            'wrap': wrap_fmt.format(header=header, bundle='~b~')
+        }
+        if (extra_data): bundle.update(extra_data)
+        return bundle['wrap'].replace('~b~', json.dumps(bundle, indent=1, sort_keys=True))
+
+class InitBundle(Bundle):
+    def build(self, closure):
+        # Include the init module in the versions mapping but not the code
+        init = Module('init', 'src/pow.init.js')
+        versions = self.get_versions()
+        versions['init'] = init.get_version()
+
+        # To bootstrap, call the init module if pow is not defined.
+        loader_wrap_fmt = '\n'.join([
+            '// {header}',
+            '(function(b) {{ if (!window.pow) eval(b.init); pow.module.load(b); }})({bundle})'])
+
+        # Build bundle with a special init property containing the init module.
+        return Bundle.build(self, closure,
+            versions=versions,
+            wrap_fmt=loader_wrap_fmt,
+            extra_data={'init': closure.compile([init.src])})
+
 bundles = {}
 bundles['pow'] = {
     'name': 'pow',
@@ -64,7 +89,6 @@ bundles['pow'] = {
         'POW: a simple javascript presentation tool.',
         'source code: http://github.com/chromakode/pow']),
     'modules': [
-        init,
         Module('compat', 'src/pow.compat.js'),
         Module('core', 'src/pow.core.js'),
         Module('nav', 'src/pow.nav.js')],
@@ -83,12 +107,8 @@ def main():
         sys.exit(1)
 
     try:
-        pow = bundles['pow']
-        loader_wrap_fmt = '\n'.join([
-            '// {header}',
-            '(function(b) {{ if (!window.pow) eval(b.init); pow.module.load(b); }})({bundle})'])
-        bundle_data = build_bundle(closure, wrap_fmt=loader_wrap_fmt, extra_data={'init': closure.compile([init.src])}, **pow)
-        open(pow['name']+'.js', 'w').write(bundle_data)
+        pow_bundle = InitBundle(**bundles['pow'])
+        open('pow.js', 'w').write(pow_bundle.build(closure))
     except ClosureError, e:
         print "ERROR: An unknown error occurred running Closure Compiler:"
         print e
