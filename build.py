@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import sys
 import re
+from os.path import splitext
 from subprocess import Popen, PIPE
 import json
 
@@ -40,7 +41,9 @@ class Module:
             data = open(self.src).read()
             for name, include in self.includes.iteritems():
                 data = data.replace('/*~{0}~*/'.format(name), include.read())
-            src = self.src + '.out'
+
+            name, ext = splitext(self.src)
+            src = name + '.all' + ext
             open(src, 'w').write(data)
             return src
         else:
