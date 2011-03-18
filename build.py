@@ -39,7 +39,7 @@ class Module:
         if self.includes:
             data = open(self.src).read()
             for name, include in self.includes.iteritems():
-                data = data.replace('~{0}~'.format(name), include.read())
+                data = data.replace('/*~{0}~*/'.format(name), include.read())
             src = self.src + '.out'
             open(src, 'w').write(data)
             return src
