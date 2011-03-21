@@ -132,6 +132,14 @@ bundles = [{
             'javascript.js': ModuleFile('modules/highlight/javascript.js'),
             'html-xml.js': ModuleFile('modules/highlight/html-xml.js'),
             'ir_black.css': ModuleFileData('modules/highlight/ir_black.css')})],
+}, {
+    'name': 'live',
+    'header': '\n'.join([
+        'pow.live: Synchronized presentations across multiple devices.',
+        'Powered by http://usepow.com/live']),
+    'modules': [
+        Module('live', 'modules/live/pow.live.js', {
+            'socket.io.js': ModuleFile('modules/live/socket.io.js')})],
 }]
 
 def main():
