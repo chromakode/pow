@@ -14,6 +14,7 @@ pow.module('live', function() {
 					pow.live.token = msg.token
 					pow.live.socket.send({ name:'authorize', token:msg.token })
 					dialog.close()
+					window.removeEventListener('message', arguments.callee, false)
 				}
 			}
 		}, false)
