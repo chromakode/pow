@@ -12,7 +12,7 @@ pow.module('live', function() {
 				var msg = JSON.parse(e.data)
 				if (msg.name == 'authorized') {
 					pow.live.token = msg.token
-					pow.live.socket.send({ name:'authorize', token:msg.token }) 
+					pow.live.socket.send({ name:'authorize', token:msg.token })
 					dialog.close()
 				}
 			}
