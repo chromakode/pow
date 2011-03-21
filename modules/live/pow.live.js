@@ -1,7 +1,7 @@
 pow.module('live', function() {
 	/*~socket.io.js~*/
 	pow.live = {}
-	pow.live.promptKey = function() {
+	pow.live.login = function() {
 		var dialog = new pow.ui.Dialog(),
 			iframe = document.createElement('iframe')
 		iframe.src = pow.live.origin + '/authorize'
@@ -31,7 +31,7 @@ pow.module('live', function() {
 		socket.on('connect', function() {
 			pow.log('pow.live connected.')
 			if (pow.live.role == 'present') {
-				pow.live.promptKey()
+				pow.live.login()
 			}
 		})
 		socket.on('message', function(msg) {
