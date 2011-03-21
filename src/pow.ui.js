@@ -106,16 +106,28 @@ pow.module('ui', function() {
 		if (this.el) { return; }
 		this.el = document.createElement('div')
 		this.el.id = 'pow-mask'
+		this.bg = document.createElement('div')
+		this.bg.id = 'pow-mask-bg'
+		this.el.appendChild(this.bg)
 		document.body.appendChild(this.el)
 	}
-	pow.ui.mask.hide = function() {
+	pow.ui.mask.hide = function(cb) {
 		if (!this.el) { return; }
-		this.el.parentNode.removeChild(this.el)
-		this.el = null
+		new pow.Animation(100, {
+			frame: function(val) {
+				pow.ui.mask.el.style.opacity = val
+			},
+			finish: function() {
+				cb()
+				this.el.parentNode.removeChild(this.el)
+				this.el = null
+			}
+		}).reverse(true)
 	}
 	pow.ui.mask.style = [
 		'#pow-mask, .pow-dialog { cursor:default; }',
-		'#pow-mask { position:absolute; top:0; left:0; bottom:0; right:0; background:black; opacity:.5; z-index:998; }',
+		'#pow-mask, #pow-mask-bg { position:absolute; top:0; left:0; bottom:0; right:0; z-index:998; }',
+		'#pow-mask-bg { background:black; opacity:.5; }',
 		'.pow-dialog { position:absolute; top:50%; height:22em; margin-top:-11.75em; left:50%; width:36em; margin-left:-18.75em; background:#111; border:.75em solid #ccc; font-family:sans-serif; color:white; z-index:999; }',
 		'.pow-dialog h1, h2 { margin:1em; }',
 		'.pow-dialog h1 { font-size:1.7em; }',
@@ -137,13 +149,14 @@ pow.module('ui', function() {
 			if (this.isShowing) { return }
 			this.isShowing = true
 			pow.ui.mask.show()
-			document.body.appendChild(this.el)
+			pow.ui.mask.el.appendChild(this.el)
 		},
 		close: function() {
 			if (!this.isShowing) { return }
-			this.isShowing = false
-			this.el.parentNode.removeChild(this.el)
-			pow.ui.mask.hide()
+			pow.ui.mask.hide(function() {
+				this.isShowing = false
+				this.el.parentNode.removeChild(this.el)
+			})
 		}
 	}
 })

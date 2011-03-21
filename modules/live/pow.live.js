@@ -14,8 +14,10 @@ pow.module('live', function() {
 				var msg = JSON.parse(e.data)
 				if (msg.name == 'authorized') {
 					pow.live.token = msg.token
-					dialog.close()
 					window.removeEventListener('message', arguments.callee, false)
+					setTimeout(function() {
+						dialog.close()
+					}, 750)
 					cb(msg.token)
 				}
 			}
