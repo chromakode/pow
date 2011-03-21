@@ -1,7 +1,9 @@
 pow.module('live', function() {
 	/*~socket.io.js~*/
 	pow.live = {}
-	pow.live.login = function() {
+	pow.live.login = function(cb) {
+		if (pow.live.token) { cb(pow.live.token) }
+
 		var dialog = new pow.ui.Dialog(),
 			iframe = document.createElement('iframe')
 		iframe.src = pow.live.origin + '/authorize'
@@ -12,9 +14,9 @@ pow.module('live', function() {
 				var msg = JSON.parse(e.data)
 				if (msg.name == 'authorized') {
 					pow.live.token = msg.token
-					pow.live.socket.send({ name:'authorize', token:msg.token })
 					dialog.close()
 					window.removeEventListener('message', arguments.callee, false)
+					cb(msg.token)
 				}
 			}
 		}, false)
@@ -32,7 +34,9 @@ pow.module('live', function() {
 		socket.on('connect', function() {
 			pow.log('pow.live connected.')
 			if (pow.live.role == 'present') {
-				pow.live.login()
+				pow.live.login(function(token) {
+					pow.live.socket.send({ name:'authorize', token:token })
+				})
 			}
 		})
 		socket.on('message', function(msg) {
@@ -40,6 +44,8 @@ pow.module('live', function() {
 			if (msg.name == 'authorized') {
 				if (msg.success == true) {
 					socket.send({ name:'slide', index:pow.slide.index })
+				} else {
+					delete pow.live.token
 				}
 			} if (msg.name == 'slide') {
 				pow.slides.go(msg.index)
