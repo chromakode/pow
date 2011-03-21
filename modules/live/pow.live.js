@@ -39,12 +39,15 @@ pow.module('live', function() {
 				pow.live.login(function(token) {
 					pow.live.socket.send({ name:'authorize', token:token })
 				})
+			} else {
+				pow.live.hud.show()
 			}
 		})
 		socket.on('message', function(msg) {
 			pow.live.processing = true
 			if (msg.name == 'authorized') {
 				if (msg.success == true) {
+					pow.live.hud.show()
 					socket.send({ name:'slide', index:pow.slide.index })
 				} else {
 					delete pow.live.token
@@ -63,6 +66,28 @@ pow.module('live', function() {
 		})
 		
 		socket.connect()
+	}
+	pow.live.hud = {}
+	pow.live.hud.fade = new pow.Animation(400, {
+		frame: function(val) { pow.live.hud.el.style.opacity = .75 * val }
+	})
+	pow.live.hud.show = function() {
+		if (!this.el) {
+			this.el = pow.el.replace('pow-live-hud', document.getElementById('slides'))
+			pow.style.get('pow-live-style').innerHTML = '#pow-live-hud { border:.25em solid red; color:red; padding:0 .15em; font-family:sans-serif; font-size:30em; font-weight:bold; letter-spacing:-.05em; border-radius:.25em; position:absolute; right:1em; bottom:1em; }'
+			this.el.textContent = 'LIVE'
+		}
+		this.fade.play()
+		this.fade.on.finish.once(function() {
+			setTimeout(function() {
+				pow.live.hud.hide()
+			}, 2000)
+		})
+	}
+	pow.live.hud.hide = function() {
+		if (this.el) {
+			this.fade.reverse()
+		}
 	}
 	pow.live.load = pow.on.load(function() {
 		var origin = pow.params.get('live')
