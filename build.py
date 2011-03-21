@@ -116,8 +116,10 @@ bundles = [{
         'POW: a simple javascript presentation tool.',
         'source code: http://github.com/chromakode/pow']),
     'modules': [
-        Module('compat', 'src/pow.compat.js'),
         Module('core', 'src/pow.core.js'),
+        Module('ui', 'src/pow.ui.js'),
+        Module('compat', 'src/pow.compat.js'),
+        Module('slides', 'src/pow.slides.js'),
         Module('nav', 'src/pow.nav.js')],
 }, {
     'name': 'highlight',
