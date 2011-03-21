@@ -58,10 +58,8 @@
 		<script>
 			pow.slide.on.load(function(slide) {
 				var code = document.getElementById('demo-code'),
-					iframe = document.getElementById('demo-iframe')
-
-				iframe.addEventListener('load', function() {
-					iframe.contentDocument.write(code.textContent = [
+					iframe = document.getElementById('demo-iframe'),
+					source = [
 						'<html>',
 						'<head>',
 						'	<script src="http://usepow.com"></scr'+'ipt>',
@@ -74,7 +72,10 @@
 						'	</div>',
 						'</body>',
 						'</html>'
-					].join('\n'))
+					].join('\n')
+				code.textContent = source
+				iframe.addEventListener('load', function() {
+					iframe.contentDocument.write(source)
 					iframe.contentDocument.close()
 				}, false)
 				iframe.src = 'about:blank'
