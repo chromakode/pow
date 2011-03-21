@@ -20,13 +20,14 @@ pow.module('live', function() {
 		dialog.show()
 	}
 	pow.live.start = function() {
-		var socket = pow.live.socket = new io.Socket('localhost', {
-			port: 1234,
-			secure: true,
-			resource: 'live',
-			transports: ['xhr-polling', 'jsonp-polling'],
-			rememberTransport: false
-		})
+		var origin = pow.live.origin.split(/:\/\/|:/),
+			socket = pow.live.socket = new io.Socket(origin[1], {
+				port: origin[2],
+				secure: true,
+				resource: 'live',
+				transports: ['xhr-polling', 'jsonp-polling'],
+				rememberTransport: false
+			})
 		socket.on('connect', function() {
 			pow.log('pow.live connected.')
 			if (pow.live.role == 'present') {
@@ -55,17 +56,17 @@ pow.module('live', function() {
 		socket.connect()
 	}
 	pow.live.load = pow.on.load(function() {
-		var origin = pow.params.get('live'),
-			role = 'view'
+		var origin = pow.params.get('live')
 
-		data = origin.split('@')
-		if (data.length == 2) {
-			role = data[0]
-			origin = data[1]
-		}
-		
 		if (origin) {
-			pow.live.origin = 'https://'+origin
+			var role = 'view'
+			data = origin.split('@')
+			if (data.length == 2) {
+				role = data[0]
+				origin = data[1]
+			}
+			
+			pow.live.origin = 'https://' + origin
 			pow.live.role = role
 			pow.live.start()
 		}
