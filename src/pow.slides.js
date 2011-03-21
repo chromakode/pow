@@ -57,7 +57,7 @@ pow.module('slides', function() {
 	pow.Slide = function(index, el) {
 		this.index = index
 		this.el = el
-		this.el.classList.remove('current')
+		pow.el.removeClass(this.el, 'current')
 		this._setup()
 	}
 	pow.Slide.prototype = {
@@ -85,10 +85,10 @@ pow.module('slides', function() {
 			pow.slide = this
 			this.on.show.fire(this)
 			pow.slides.on.show.fire(this)
-			this.el.classList.add('current')
+			pow.el.addClass(this.el, 'current')
 		},
 		hide: function() {
-			this.el.classList.remove('current')
+			pow.el.removeClass(this.el, 'current')
 			this.on.hide.fire(this)
 			pow.slides.on.hide.fire(this)
 		},

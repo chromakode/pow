@@ -32,6 +32,27 @@ pow.module('ui', function() {
 		}
 		return el
 	}
+	pow.el.addClass = function(el, className) {
+		if (el.classList) {
+			el.classList.add(className)
+		} else {
+			if (!~el.className.split(' ').indexOf(className)) {
+				el.className += ' ' + className
+			}
+		}
+	}
+	pow.el.removeClass = function(el, className) {
+		if (el.classList) {
+			el.classList.remove(className)
+		} else {
+			var classes = el.className.split(' '),
+				index = classes.indexOf(className)
+			if (~index) {
+				classes.splice(index, 1)
+			}
+			el.className = classes.join(' ')
+		}
+	}
 
 	pow.Animation = function(duration, args) {
 		this.on = {}
