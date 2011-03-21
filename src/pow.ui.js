@@ -113,14 +113,15 @@ pow.module('ui', function() {
 	}
 	pow.ui.mask.hide = function(cb) {
 		if (!this.el) { return; }
+		var self = this
 		new pow.Animation(100, {
 			frame: function(val) {
-				pow.ui.mask.el.style.opacity = val
+				self.el.style.opacity = val
 			},
 			finish: function() {
 				cb()
-				this.el.parentNode.removeChild(this.el)
-				this.el = null
+				self.el.parentNode.removeChild(self.el)
+				self.el = null
 			}
 		}).reverse(true)
 	}
@@ -153,9 +154,10 @@ pow.module('ui', function() {
 		},
 		close: function() {
 			if (!this.isShowing) { return }
+			var self = this
 			pow.ui.mask.hide(function() {
 				this.isShowing = false
-				this.el.parentNode.removeChild(this.el)
+				self.el.parentNode.removeChild(self.el)
 			})
 		}
 	}
