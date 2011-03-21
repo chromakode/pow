@@ -127,8 +127,8 @@ pow.module('slides', function() {
 	pow.slides.go = function(index) {
 		index = Number(index) || 0
 		if (index < 0) { index += pow.slides.length }
-		var slide = pow.slides[index]
-		if (slide) { slide.show() }
+		var slide = pow.slides[index] || pow.slides[0]
+		slide.show()
 	}
 	pow.slides.go.first = function() { pow.slides.go(0) }
 	pow.slides.go.last = function() { pow.slides.go(-1) }
