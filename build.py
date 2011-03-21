@@ -112,7 +112,7 @@ bundles = [{
     'class': InitBundle,
     'filename': 'pow.js',
     'header': '\n'.join([
-        '<body style="display:none" onload="window.location.href=\'http://usepow.com/about\'">',
+        '<body style="display:none" onload="window.location.href=\'http://usepow.com/about\'+window.location.hash">',
         'POW: a simple javascript presentation tool.',
         'source code: http://github.com/chromakode/pow']),
     'modules': [
