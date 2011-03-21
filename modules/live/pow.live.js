@@ -89,7 +89,7 @@ pow.module('live', function() {
 			this.fade.reverse()
 		}
 	}
-	pow.live.load = pow.on.load(function() {
+	pow.live.load = pow.on.start(function() {
 		var origin = pow.params.get('live')
 
 		if (origin) {
@@ -102,7 +102,14 @@ pow.module('live', function() {
 			
 			pow.live.origin = 'https://' + origin
 			pow.live.role = role
-			pow.live.start()
+
+			// FIXME: HACK: Wait until the window has finished loading to
+			// prevent an infinite loading indicator.
+			window.addEventListener('load', function() {
+				setTimeout(function() {
+					pow.live.start()
+				}, 0)
+			}, false)
 		}
 	})
 })
