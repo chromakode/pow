@@ -74,11 +74,7 @@
 						'</html>'
 					].join('\n')
 				code.textContent = source
-				iframe.addEventListener('load', function() {
-					iframe.contentDocument.write(source)
-					iframe.contentDocument.close()
-				}, false)
-				iframe.src = 'about:blank'
+				iframe.src = 'data:text/html,'+source
 			})
 		</script>
 		<h1>Presentations can be simple.</h1>
