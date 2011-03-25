@@ -133,6 +133,15 @@ bundles = [{
             'html-xml.js': ModuleFile('modules/highlight/html-xml.js'),
             'ir_black.css': ModuleFileData('modules/highlight/ir_black.css')})],
 }, {
+    'name': 'canvg',
+    'header': '\n'.join([
+        'pow.canvg: SVG fallback support in browsers support canvas',
+        'Thanks to http://code.google.com/p/canvg/']),
+    'modules': [
+        Module('canvg', 'modules/canvg/pow.canvg.js', {
+            'rgbcolor.js': ModuleFile('modules/canvg/rgbcolor.js'),
+            'canvg.js': ModuleFile('modules/canvg/canvg.js')})],
+}, {
     'name': 'live',
     'header': '\n'.join([
         'pow.live: Synchronized presentations across multiple devices.',
