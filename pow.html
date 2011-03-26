@@ -14,11 +14,12 @@
 	-->
 	<style>
 		.slide { font-family:sans-serif; text-align:center; }
-		.slide.logo { text-align:center; }
+		.slide.title { text-align:center; }
+		.slide.title .logo { width:50%; height:50%; }
 		.slide h1 { font-size:48em; font-weight:normal; }
 		.slide h2 { font-size:40em; font-weight:bold; }
 		.slide h1, h2 { letter-spacing:-.05em; }
-		.slide h1 > object { height:1.75em; width:2.25em; vertical-align:middle; }
+		.slide h1 .logo { height:1.75em; width:2.25em; vertical-align:middle; }
 		.slide h1 > button { font-size:1em; }
 		.slide a { border:none; color:black; background:#ddd; padding:.25em .5em; border-radius:.25em; }
 		.slide code { text-align:left; font-size:20em; font-family:monospace; padding:1em 2em; }
@@ -29,19 +30,19 @@
 </head>
 <body>
 <div id="slides">
-	<div class="slide logo">
+	<div class="slide title">
 		<script>
 			pow.slide.on.show(function() {
-				var logo = pow.slide.el.getElementsByTagName('object')[0]
+				var logo = pow.slide.el.getElementsByClassName('logo')[0]
 				pow.slide.animate(400, {
 					frame: function(val) {
-						logo.height = 50*Math.min(1, val*4)*(Math.sin(3*Math.PI*val)*(1-val)*.25+1) + "%"
+						logo.style.height = logo.style.width = 50*Math.min(1, val*4)*(Math.sin(3*Math.PI*val)*(1-val)*.25+1) + "%"
 					},
 					finish: function() {}
 				}).play()
 			})
 		</script>
-		<object data="logo.svg" width="50%" height="50%"><h1>POW!</h1></object>
+		<object class="logo" data="logo.svg"><h1>POW!</h1></object>
 		<h1>A simple web presentation tool.</h1>
 	</div>
 	<div class="slide">
@@ -81,8 +82,8 @@
 		<pre><code class="html" id="demo-code"></code></pre>
 	</div>
 	<div class="slide">
-		<h1>This is <object data="logo.svg">POW!</object>.</h1>
-		<iframe id="demo-iframe" width="80%" height="60%"></iframe>
+		<h1>This is <object class="logo" data="logo.svg">POW!</object>.</h1>
+		<iframe id="demo-iframe" width="80%" height="60%" src="about:blank"></iframe>
 	</div>
 	<div class="slide">
 		<h1>What will you make with it?</h1>
