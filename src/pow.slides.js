@@ -83,9 +83,9 @@ pow.module('slides', function() {
 			if (pow.slide == this) { return; }
 			pow.slide.hide()
 			pow.slide = this
-			this.on.show.fire(this)
-			pow.slides.on.show.fire(this)
 			pow.el.addClass(this.el, 'current')
+			pow.slides.on.show.fire(this)
+			this.on.show.fire(this)
 		},
 		hide: function() {
 			pow.el.removeClass(this.el, 'current')
