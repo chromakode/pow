@@ -1,9 +1,9 @@
 pow.module('nav', function() {
 	var icon = {
-		first: '<path d="M 15,30 15,55 10,55 10,5 15,5 15,30, 45,0, 45,60 z"></path>',
-		prev: '<path d="M 15,30, 45,0, 45,60 z"></path>',
-		next: '<path d="M 45,30, 15,0, 15,60 z"></path>',
-		last: '<path d="M 45,30 45,55 50,55 50,5 45,5 45,30, 15,0, 15,60 z"></path>'
+		first: '<path fill="white" d="M 15,30 15,55 10,55 10,5 15,5 15,30, 45,0, 45,60 z"></path>',
+		prev: '<path fill="white" d="M 15,30, 45,0, 45,60 z"></path>',
+		next: '<path fill="white" d="M 45,30, 15,0, 15,60 z"></path>',
+		last: '<path fill="white" d="M 45,30 45,55 50,55 50,5 45,5 45,30, 15,0, 15,60 z"></path>'
 	}
 
 	navStyle = [
@@ -13,7 +13,6 @@ pow.module('nav', function() {
 		'#pow-nav .nav:hover { background:rgba(0,0,0,.90); }',
 		'#pow-nav .nav:active { background:rgba(0,0,0,1); }',
 		'#pow-nav .nav .icon { display:block; margin:20%; width:60%; height:60%; }',
-		'#pow-nav .nav path { fill:white; }',
 		'#pow-nav .nav.first { border-top-left-radius:10px; }',
 		'#pow-nav .nav.last { border-top-right-radius:10px; }',
 		'#pow-nav .status { height:20px; line-height:20px; text-align:center; color:#aaa; font-family:sans-serif; border-radius:0 0 10px 10px; }'
