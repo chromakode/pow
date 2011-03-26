@@ -65,7 +65,7 @@ pow.module('core', function() {
 
 	// TODO: add IE support here
 	window.addEventListener('DOMContentLoaded', function() {
-		if (pow.compat) { pow.compat.check() }
+		pow.compat.advise()
 		pow.on.load.fire()
 		pow.on.start.fire()
 	}, false)
