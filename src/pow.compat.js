@@ -34,6 +34,11 @@ pow.module('compat', function() {
 		if (!supportsInlineSVG) {
 			warn = true
 		}
+		
+		if (window.localStorage) {
+			warn = warn && !window.localStorage.compatWarned
+			window.localStorage.compatWarned = warn
+		}
 
 		if (warn) { pow.compat.warn() }
 	}
