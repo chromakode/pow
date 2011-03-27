@@ -2,11 +2,11 @@ pow.module('touch', function() {
 	pow.touch = {}
 	pow.touch.threshold = 50
 	pow.touch.gesture = function() {
-		if (this.startX == null || this.endX == null) { return }
-		if (this.endX - this.startX > this.threshold) {
-			pow.slides.go.next()
-		} else if (this.endX - this.startX < this.threshold) {
-			pow.slides.go.prev()
+		var dx = this.endX - this.startX
+		if (!dx) {
+			return
+		} else if (Math.abs(dx) > this.threshold) {
+			pow.slides.go[dx > 0 ? 'next' : 'prev']()
 		}
 	}
 	
