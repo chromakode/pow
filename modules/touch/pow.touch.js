@@ -6,7 +6,7 @@ pow.module('touch', function() {
 		if (!dx) {
 			return
 		} else if (Math.abs(dx) > this.threshold) {
-			pow.slides.go[dx > 0 ? 'next' : 'prev']()
+			pow.slides.go[dx < 0 ? 'next' : 'prev']()
 		}
 	}
 	
