@@ -1,18 +1,26 @@
 <!doctype html>
 <html>
 <head>
+	<!--
+	To use compiled sources: run ./build.py and then use this block of scripts
+	in place of the default.
+
 	<script src="pow.js"></script>
 	<script src="pow.highlight.js"></script>
 	<script src="pow.mobile.js"></script>
 	<script src="pow.live.js"></script>
-	<!--
+	-->
+
+	<!-- Uncompiled dev sources: -->
 	<script src="src/pow.init.js"></script>
 	<script src="src/pow.compat.js"></script>
 	<script src="src/pow.core.js"></script>
 	<script src="src/pow.ui.js"></script>
 	<script src="src/pow.slides.js"></script>
 	<script src="src/pow.nav.js"></script>
-	-->
+
+	<!-- Run ./build.py to concatenate the highlight module into a single file. -->
+	<script src="modules/highlight/pow.highlight.all.js"></script>
 	<style>
 		.slide { font-family:sans-serif; text-align:center; }
 		.slide.title { text-align:center; }
